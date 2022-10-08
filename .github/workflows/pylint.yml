@@ -1,9 +1,9 @@
-# This workflow use pytest:
+# This workflow use pylint:
 #  - Install Python dependencies.
-#  - Run pytest for each of the supported Python versions ["3.8", "3.9", "3.10"].
-# Running pytest with -m "no docker" to disable test that require a docker installation.
+#  - Run pylint for each of the supported Python versions.
+# Pylint will only fail without fixing any of the errors or warnings.
 
-name: Pytest.
+name: Pylint & Mypy
 
 on:
   push:
@@ -31,9 +31,11 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install -r requirement.txt
         python -m pip install -r tests/test-requirement.txt
-    - name: Runnning tests with pytest.
+        python -m pip install mypy types-click types-protobuf types-redis types-requests types-urllib3 typing_extensions
+    - name: Runnning linter.
       run: |
-        set -o pipefail
-        pytest -m "not docker" --cov=. | tee pytest-coverage.txt
-    - name: Comment coverage
-      uses: coroo/pytest-coverage-commentator@v1.0.2
+        pylint --load-plugins pylint_quotes --rcfile=.pylintrc --ignore=tests/ agent/
+        pylint --load-plugins pylint_quotes --rcfile=.pylintrc -d C0103,W0613 tests/
+    - name: Running static types checker.
+      run: |
+        mypy
