@@ -3,12 +3,11 @@ import json
 import logging
 import subprocess
 import tempfile
-import typing
-from typing import List, Union, IO, Dict, Any
+from typing import List, IO, Dict, Any
 
 from ostorlab.agent import agent, definitions as agent_definitions
-from ostorlab.agent.message import message as msg
 from ostorlab.agent.kb import kb
+from ostorlab.agent.message import message as msg
 from ostorlab.agent.mixins import agent_persist_mixin as persist_mixin
 from ostorlab.agent.mixins import agent_report_vulnerability_mixin as vuln_mixin
 from ostorlab.runtimes import definitions as runtime_definitions

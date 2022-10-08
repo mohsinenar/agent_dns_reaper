@@ -1,11 +1,11 @@
 """Unittests for agent."""
 import json
-import tempfile
 from typing import List, Union, Dict, IO
+
+from ostorlab.agent.message import message as msg
 from pytest_mock import plugin
 
 from agent import dns_reaper_agent
-from ostorlab.agent.message import message as msg
 
 
 def testDnsReaperAgent_whenSubDomainVulnerabilityIsFound_thenVulnerabilityIsReported(
