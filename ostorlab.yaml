@@ -1,9 +1,98 @@
 kind: Agent
-name: template_agent # Agent name, must be unique by organisation to be published on the store.
-version: 0.0.0 # Must respect semantic versioning.
-description: Agent description. # Support for Markdown format.
-in_selectors: # List of input selectors, this is basically the list of messages the agent should receive.
-  - v3.healthcheck.ping
-out_selectors: [] # List of output selectors.
-docker_file_path : Dockerfile # Dockerfile path for automated releases.
-docker_build_root : . # Docker build dir for automated release build.
+name: subjack
+version: 0.0.1
+description: |
+  <h1 align="center">Agent Subjack</h1>
+  <p align="center">
+  <img src="https://img.shields.io/badge/License-Apache_2.0-brightgreen.svg">
+  <img src="https://img.shields.io/github/languages/top/mohsinenar/agent_subjack">
+  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg">
+  </p>
+  
+  Subjack is a Subdomain Takeover tool written in Go designed to scan a list of subdomains concurrently and identify ones
+  that are able to be hijacked. With Go's speed and efficiency, this tool really stands out when it comes to mass-testing.
+  Always double check the results manually to rule out false positives.
+  
+  Subjack will also check for subdomains attached to domains that don't exist (NXDOMAIN) and are available to be
+  registered. No need for dig ever again! This is still cross-compatible too._
+  
+  ---
+  
+  <p align="center">
+  <img src="https://raw.githubusercontent.com/mohsinenar/agent_subjack/main/images/logo.png" alt="agent-subjack" />
+  </p>
+  
+  This repository is an implementation of [Ostorlab Agent](https://pypi.org/project/ostorlab/)
+  for [Subjack](https://github.com/haccer/subjack) (Subdomain Takeover tool).
+  
+  ## Getting Started
+  
+  To perform your first scan, simply run the following command.
+  
+  ```shell
+  ostorlab scan run --install --agent agent/mohsinenar/subjack domain-name example.com
+  ```
+  
+  This command will download and install `agent/mohsinenar/subjack` and target domain `example.com`.
+  For more information, please refer to
+  the [Ostorlab Documentation](https://github.com/Ostorlab/ostorlab/blob/main/README.md)
+  
+  ## Usage
+  
+  Agent Subjack can be installed directly from the ostorlab agent store or built from this repository.
+  
+  ### Install directly from ostorlab agent store
+  
+   ```shell
+   ostorlab agent install agent/mohsinenar/subjack
+   ```
+  
+  You can then run the agent with the following command:
+  `ostorlab scan run --agent agent/mohsinenar/subjack domain domain-name example.com`
+  
+  ### Build directly from the repository
+  
+  1. To build the nmap agent you need to have [ostorlab](https://pypi.org/project/ostorlab/) installed in your machine. If
+     you have already installed ostorlab, you can skip this step.
+  
+  ```shell
+  pip3 install ostorlab
+  ```
+  
+  2. Clone this repository.
+  
+  ```shell
+  git clone https://github.com/mohsinenar/agent_subjack.git && cd agent_subjack
+  ```
+  
+  3. Build the agent image using ostorlab cli.
+  
+   ```shell
+   ostorlab agent build --file=ostorlab.yaml
+   ```
+  
+  You can pass the optional flag `--organization` to specify your organisation. The organization is empty by default.
+  
+  4. Run the agent using on of the following commands:
+      * If you did not specify an organization when building the image:
+       ```shell
+       ostorlab scan run --agent agent//subjack ip 8.8.8.8
+       ```
+      * If you specified an organization when building the image:
+       ```shell
+       ostorlab scan run --agent agent/[ORGANIZATION]/subjack ip 8.8.8.8
+       ```
+  
+  ## License
+  
+  [Apache](./LICENSE)
+
+in_selectors:
+  - v3.asset.domain_name
+out_selectors:
+  - v3.report.vulnerability
+docker_file_path: Dockerfile
+docker_build_root: .
+source: https://github.com/Ostorlab/agent_nmap
+license: Apache-2.0
+image: images/logo.png
