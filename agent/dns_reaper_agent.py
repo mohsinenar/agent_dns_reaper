@@ -39,7 +39,7 @@ class DnsReaperAgent(agent.Agent, vuln_mixin.AgentReportVulnMixin, persist_mixin
         if domain_name is not None and self.set_add(b'agent_dns_reaper', f'{domain_name}'):
             logger.info('processing domain name: %s', domain_name)
             with tempfile.NamedTemporaryFile(suffix='.json') as output_file:
-                self._run_dns_reaper_command(domain_name, output_file)
+                output_file = self._run_dns_reaper_command(domain_name, output_file)
                 findings = self._parse_dns_reaper_output(output_file)
                 self._emit_findings(findings)
 
