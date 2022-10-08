@@ -1,6 +1,7 @@
 """conftest.py for agent Fingerprint Generator. """
 import pathlib
 import tempfile
+from typing import IO
 
 import pytest
 from ostorlab.agent import definitions as agent_definitions
@@ -13,7 +14,7 @@ OSTORLAB_YAML_PATH = (pathlib.Path(__file__).parent.parent / 'ostorlab.yaml').ab
 
 
 @pytest.fixture
-def scan_message_domain_name():
+def scan_message_domain_name() -> msg.Message:
     """Creates a dummy message of type v3.asset.ip.v4.port.service to be used by the agent for testing purposes.
     """
     selector = 'v3.asset.domain_name'
@@ -22,7 +23,7 @@ def scan_message_domain_name():
 
 
 @pytest.fixture
-def test_agent():
+def test_agent() -> dns_reaper_agent.DnsReaperAgent:
     with open(OSTORLAB_YAML_PATH, 'r', encoding='utf-8') as yaml_o:
         definition = agent_definitions.AgentDefinition.from_yaml(yaml_o)
         settings = runtime_definitions.AgentSettings(
@@ -32,11 +33,11 @@ def test_agent():
 
 
 @pytest.fixture
-def fake_ouput_file():
+def fake_output_file() -> IO[bytes]:
     """Creates a fake output file for testing purposes.
     """
-    ouput_file = tempfile.TemporaryFile(suffix='.json')
-    ouput_file.write(b"""
+    output_file = tempfile.TemporaryFile(suffix='.json')
+    output_file.write(b"""
 [
   {
     "domain": "09090chromedevtools.github.io",
@@ -60,4 +61,5 @@ def fake_ouput_file():
   }
 ]
     """)
-    return ouput_file
+    output_file.seek(0)
+    return output_file
