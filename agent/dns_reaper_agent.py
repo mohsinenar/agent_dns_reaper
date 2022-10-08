@@ -35,28 +35,28 @@ class DnsReaperAgent(agent.Agent, vuln_mixin.AgentReportVulnMixin, persist_mixin
 
     def process(self, message: msg.Message) -> None:
         """Process only message of type v3.asset.domain_name"""
-        domain_name = message.data.get("name")
+        domain_name = message.data.get('name')
         if domain_name is not None and self.set_add(b'agent_dns_reaper', f'{domain_name}'):
             logger.info('processing domain name: %s', domain_name)
-            output_file = self._run_dns_reaper_command(domain_name)
-            findings = self._parse_dns_reaper_output(output_file)
-            self._emit_findings(findings)
+            with tempfile.NamedTemporaryFile(suffix='.json') as output_file:
+                self._run_dns_reaper_command(domain_name, output_file)
+                findings = self._parse_dns_reaper_output(output_file)
+                self._emit_findings(findings)
 
     def _emit_findings(self, findings: List[str]) -> None:
         """Emit findings as a vulnerability"""
         for finding in findings:
-            if finding.get('confidence') == "CONFIRMED":
+            if finding.get('confidence') == 'CONFIRMED':
                 technical_detail = f"""```{finding}```"""
                 self.report_vulnerability(entry=kb.KB.SUBDOMAIN_TAKEOVER,
                                           technical_detail=technical_detail,
                                           risk_rating=vuln_mixin.RiskRating.HIGH)
 
-    def _run_dns_reaper_command(self, domain) -> str:
-        output_file = tempfile.NamedTemporaryFile(suffix='.json')
+    def _run_dns_reaper_command(self, domain, output_file: tempfile.NamedTemporaryFile) -> str:
         command = ['python3', '/app/dnsReaper/main.py',
                    'single', '--domain', domain, '--out-format', 'json', '--out', output_file.name
                    ]
-        logger.info('running dnsReaper with command "%s"', " ".join(command))
+        logger.info('running dnsReaper with command "%s"', ' '.join(command))
         subprocess.run(command, check=True)
         logger.info('dnsReaper finished')
         return output_file
