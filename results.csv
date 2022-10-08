@@ -1,2 +1,0 @@
-domain,signature,info,confidence,a_records,aaaa_records,cname_records,ns_records
-09090chromedevtools.github.io,github_pages, The defined domain has A/AAAA records configured for Github Pages and but a web request shows the domain is unclaimed. An attacker can register this domain on Github Pages and serve their own web content.,CONFIRMED,"185.199.109.153,185.199.108.153,185.199.111.153,185.199.110.153","2606:50c0:8000::153,2606:50c0:8003::153,2606:50c0:8001::153,2606:50c0:8002::153",,

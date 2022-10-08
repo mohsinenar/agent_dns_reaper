@@ -8,6 +8,6 @@ out_selectors:
   - v3.report.vulnerability
 docker_file_path: Dockerfile
 docker_build_root: .
-source: https://github.com/Ostorlab/agent_nmap
+source: https://github.com/mohsinenar/agent_dns_reaper
 license: Apache-2.0
 image: images/logo.png
