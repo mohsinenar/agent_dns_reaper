@@ -1,9 +1,9 @@
-# This workflow use pylint:
+# This workflow use pytest:
 #  - Install Python dependencies.
-#  - Run pylint for each of the supported Python versions. 
-# Pylint will only fail without fixing any of the errors or warnings.
+#  - Run pytest for each of the supported Python versions ["3.8", "3.9", "3.10"].
+# Running pytest with -m "no docker" to disable test that require a docker installation.
 
-name: Pylint
+name: Pytest.
 
 on:
   push:
@@ -31,8 +31,9 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install -r requirement.txt
         python -m pip install -r tests/test-requirement.txt
-    - name: Runnning linter.
+    - name: Runnning tests with pytest.
       run: |
-        pylint --load-plugins pylint_quotes --rcfile=.pylintrc --ignore=tests/ agent/
-        pylint --load-plugins pylint_quotes --rcfile=.pylintrc -d C0103,W0613 tests/
-
+        set -o pipefail
+        pytest -m "not docker" --cov=. | tee pytest-coverage.txt
+    - name: Comment coverage
+      uses: coroo/pytest-coverage-commentator@v1.0.2
