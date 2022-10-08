@@ -1,51 +1,51 @@
-<h1 align="center">Agent Subjack</h1>
+<h1 align="center">Agent dnsReaper</h1>
 
 <p align="center">
 <img src="https://img.shields.io/badge/License-Apache_2.0-brightgreen.svg">
-<img src="https://img.shields.io/github/languages/top/mohsinenar/agent_subjack">
+<img src="https://img.shields.io/github/languages/top/mohsinenar/agent_dnsReaper">
 <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg">
 </p>
 
-_Subjack is a Subdomain Takeover tool written in Go designed to scan a list of subdomains concurrently and identify ones
+_dnsReaper is a Subdomain Takeover tool written in Go designed to scan a list of subdomains concurrently and identify ones
 that are able to be hijacked. With Go's speed and efficiency, this tool really stands out when it comes to mass-testing.
-Always double check the results manually to rule out false positives.
+Always double-check the results manually to rule out false positives.
 
-Subjack will also check for subdomains attached to domains that don't exist (NXDOMAIN) and are available to be
+dnsReaper will also check for subdomains attached to domains that don't exist (NXDOMAIN) and are available to be
 registered. No need for dig ever again! This is still cross-compatible too._
 
 ---
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/mohsinenar/agent_subjack/main/images/logo.png" alt="agent-subjack" />
+<img src="https://raw.githubusercontent.com/mohsinenar/agent_dnsReaper/main/images/logo.png" alt="agent-dnsReaper" />
 </p>
 
 This repository is an implementation of [Ostorlab Agent](https://pypi.org/project/ostorlab/)
-for [Subjack](https://github.com/haccer/subjack) (Subdomain Takeover tool).
+for [dnsReaper](https://github.com/haccer/dnsReaper) (Subdomain Takeover tool).
 
 ## Getting Started
 
 To perform your first scan, simply run the following command.
 
 ```shell
-ostorlab scan run --install --agent agent/mohsinenar/subjack domain-name example.com
+ostorlab scan run --install --agent agent/mohsinenar/dnsReaper domain-name example.com
 ```
 
-This command will download and install `agent/mohsinenar/subjack` and target domain `example.com`.
+This command will download and install `agent/mohsinenar/dnsReaper` and target domain `example.com`.
 For more information, please refer to
 the [Ostorlab Documentation](https://github.com/Ostorlab/ostorlab/blob/main/README.md)
 
 ## Usage
 
-Agent Subjack can be installed directly from the ostorlab agent store or built from this repository.
+Agent dnsReaper can be installed directly from the ostorlab agent store or built from this repository.
 
 ### Install directly from ostorlab agent store
 
  ```shell
- ostorlab agent install agent/mohsinenar/subjack
+ ostorlab agent install agent/mohsinenar/dnsReaper
  ```
 
 You can then run the agent with the following command:
-`ostorlab scan run --agent agent/mohsinenar/subjack domain domain-name example.com`
+`ostorlab scan run --agent agent/mohsinenar/dnsReaper domain domain-name example.com`
 
 ### Build directly from the repository
 
@@ -59,7 +59,7 @@ pip3 install ostorlab
 2. Clone this repository.
 
 ```shell
-git clone https://github.com/mohsinenar/agent_subjack.git && cd agent_subjack
+git clone https://github.com/mohsinenar/agent_dnsReaper.git && cd agent_dnsReaper
 ```
 
 3. Build the agent image using ostorlab cli.
@@ -73,11 +73,11 @@ You can pass the optional flag `--organization` to specify your organisation. Th
 4. Run the agent using on of the following commands:
     * If you did not specify an organization when building the image:
      ```shell
-     ostorlab scan run --agent agent//subjack ip 8.8.8.8
+     ostorlab scan run --agent agent//dnsReaper ip 8.8.8.8
      ```
     * If you specified an organization when building the image:
      ```shell
-     ostorlab scan run --agent agent/[ORGANIZATION]/subjack ip 8.8.8.8
+     ostorlab scan run --agent agent/[ORGANIZATION]/dnsReaper ip 8.8.8.8
      ```
 
 ## License

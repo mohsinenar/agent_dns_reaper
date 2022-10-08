@@ -1,20 +1,19 @@
 FROM python:3.10-alpine as base
 FROM base as builder
-RUN apk add build-base git
+RUN apk add build-base
 RUN mkdir /install
 WORKDIR /install
 COPY requirement.txt /requirement.txt
+COPY dnsReaper/requirements.txt /dnsReaper-requirement.txt
 RUN pip install --prefix=/install -r /requirement.txt
+RUN pip install --prefix=/install -r /dnsReaper-requirement.txt
 FROM base
-RUN apk add build-base git
+# install dnsReaper
 COPY --from=builder /install /usr/local
 RUN mkdir -p /app/agent
 ENV PYTHONPATH=/app
-# install dnsReaper
-RUN git clone https://github.com/punk-security/dnsReaper /app/dnsReaper
-RUN pip install -r /app/dnsReaper/requirement.txt
-# add agent code
 COPY agent /app/agent
+COPY dnsReaper /app/dnsReaper
 COPY ostorlab.yaml /app/agent/ostorlab.yaml
 WORKDIR /app
-CMD ["python3", "/app/agent/template_agent.py"]
+CMD ["python3", "/app/agent/dns_reaper_agent.py"]

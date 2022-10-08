@@ -4,10 +4,10 @@ import tempfile
 
 import pytest
 from ostorlab.agent import definitions as agent_definitions
-from ostorlab.agent import message
+from ostorlab.agent.message import message as msg
 from ostorlab.runtimes import definitions as runtime_definitions
 
-from agent import subjack_agent
+from agent import dns_reaper_agent
 
 OSTORLAB_YAML_PATH = (pathlib.Path(__file__).parent.parent / 'ostorlab.yaml').absolute()
 
@@ -18,7 +18,7 @@ def scan_message_domain_name():
     """
     selector = 'v3.asset.domain_name'
     msg_data = {'name': 'ostorlab.co'}
-    return message.Message.from_data(selector, data=msg_data)
+    return msg.Message.from_data(selector, data=msg_data)
 
 
 @pytest.fixture
@@ -28,7 +28,7 @@ def test_agent():
         settings = runtime_definitions.AgentSettings(
             key='agent/ostorlab/agent_fingerprint_generator',
             redis_url='redis://redis')
-        return subjack_agent.SubJakAgent(definition, settings)
+        return dns_reaper_agent.DnsReaperAgent(definition, settings)
 
 
 @pytest.fixture
@@ -37,17 +37,27 @@ def fake_ouput_file():
     """
     ouput_file = tempfile.TemporaryFile(suffix='.json')
     ouput_file.write(b"""
-        [
-          {
-            "subdomain": "cadkncsjdan.github.io",
-            "vulnerable": true,
-            "service": "github"
-          },
-          {
-            "subdomain": "cadkncsjdan-fale.github.io",
-            "vulnerable": false,
-            "service": "github"
-          }
-        ]
+[
+  {
+    "domain": "09090chromedevtools.github.io",
+    "signature": "github_pages",
+    "info": " The defined domain has A/AAAA records configured for Github Pages and but a web request shows the domain is unclaimed. An attacker can register this domain on Github Pages and serve their own web content.",
+    "confidence": "CONFIRMED",
+    "a_records": [
+      "185.199.109.153",
+      "185.199.111.153",
+      "185.199.110.153",
+      "185.199.108.153"
+    ],
+    "aaaa_records": [
+      "2606:50c0:8000::153",
+      "2606:50c0:8001::153",
+      "2606:50c0:8002::153",
+      "2606:50c0:8003::153"
+    ],
+    "cname_records": [],
+    "ns_records": []
+  }
+]
     """)
     return ouput_file
