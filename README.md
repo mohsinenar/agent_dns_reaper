@@ -7,8 +7,9 @@
 This repository is an implementation of [Ostorlab Agent](https://pypi.org/project/ostorlab/) for the [dnsReaper subdomain takeover tool](https://github.com/punk-security/dnsReaper) by punk-security.    
   ## Getting Started    
  To perform your first scan, simply run the following command:    
- ```shell  ostorlab scan run --install --agent agent/mohsinenar/dns_reaper domain-name sub.domain.com    
-  ```    
+ ```shell
+ ostorlab scan run --install --agent agent/mohsinenar/dns_reaper domain-name sub.domain.com    
+ ```    
  ## Installation & Usage    
       
       
@@ -17,17 +18,21 @@ This repository is an implementation of [Ostorlab Agent](https://pypi.org/projec
    ostorlab agent install agent/mohsinenar/dns_reaper    
    ```    
  You can then run the agent with the following command:    
- ```shell  ostorlab scan run --agent agent/mohsinenar/dns_reaper domain-name sub.domain.com    
+ ```shell
+ ostorlab scan run --agent agent/mohsinenar/dns_reaper domain-name sub.domain.com    
   ```    
  ### Build directly from the repository    
 1. To build the nmap agent you need to have [ostorlab](https://pypi.org/project/ostorlab/) installed in your machine.  if you have already installed ostorlab, you can skip this step.    
- ```shell  pip3 install ostorlab    
+ ```shell  
+ pip3 install ostorlab    
   ```    
 2. Clone this repository.    
- ```shell  git clone https://github.com/mohsinenar/agent_dns_reaper.git && cd agent_dns_reaper    
+ ```shell  
+ git clone https://github.com/mohsinenar/agent_dns_reaper.git && cd agent_dns_reaper    
   ```    
 3. Build the agent image using ostorlab cli.    
- ```shell   ostortlab agent build --file=ostorlab.yaml    
+ ```shell   
+ ostortlab agent build --file=ostorlab.yaml    
    ```    
  You can pass the optional flag `--organization` to specify your organisation. The organization is empty by default.    
  4. Run the agent using on of the following commands:    
@@ -38,7 +43,8 @@ This repository is an implementation of [Ostorlab Agent](https://pypi.org/projec
   *If you specified an organization when building the image:  
       ```shell    
       ostorlab scan run --agent agent/[ORGANIZATION]/dns_reaper ip 8.8.8.8    
-``` # usage scenario   
+      ``` 
+# usage scenario   
 ## Scan all subdomains For a specefic domain.  
 This agent  can be used with other agents from ostorlab store. to perform a full scan on a specefic target.  
   
