@@ -1,85 +1,56 @@
-<h1 align="center">Agent dnsReaper</h1>
+# dnsReaper 
+This repository is an implementation of [Ostorlab Agent](https://pypi.org/project/ostorlab/) for the [dnsReaper subdomain takeover tool](https://github.com/punk-security/dnsReaper) by punk-security.  
+  ## Getting Started  
+  To perform your first scan, simply run the following command:  
+  ```shell  
+  ostorlab scan run --install --agent agent/mohsinenar/dns_reaper domain-name sub.domain.com  
+  ```  
+  ## Installation & Usage  
+    
+    
+   ### Install directly from ostorlab agent store  
+   ```shell  
+   ostorlab agent install agent/mohsinenar/dns_reaper  
+   ```  
+  You can then run the agent with the following command:  
+  ```shell  
+  ostorlab scan run --agent agent/mohsinenar/dns_reaper domain-name sub.domain.com  
+  ```  
+  ### Build directly from the repository  
+   1. To build the nmap agent you need to have [ostorlab](https://pypi.org/project/ostorlab/) installed in your machine.  if you have already installed ostorlab, you can skip this step.  
+  ```shell  
+  pip3 install ostorlab  
+  ```  
+   2. Clone this repository.  
+  ```shell  
+  git clone https://github.com/mohsinenar/agent_dns_reaper.git && cd agent_dns_reaper  
+  ```  
+   3. Build the agent image using ostorlab cli.  
+   ```shell  
+   ostortlab agent build --file=ostorlab.yaml  
+   ```  
+   You can pass the optional flag `--organization` to specify your organisation. The organization is empty by default.  
+   4. Run the agent using on of the following commands:  
+   *If you did not specify an organization when building the image:  
+      ```shell  
+      ostorlab scan run --agent agent//dns_reaper ip 8.8.8.8  
+      ```
+      *If you specified an organization when building the image:
+      ```shell  
+      ostorlab scan run --agent agent/[ORGANIZATION]/dns_reaper ip 8.8.8.8  
+      ```  
+# usage scenario 
 
-<p align="center">
-<img src="https://img.shields.io/badge/License-Apache_2.0-brightgreen.svg">
-<img src="https://img.shields.io/github/languages/top/mohsinenar/agent_dnsReaper">
-<img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg">
-</p>
+## Scan all subdomains For a specefic domain.
+This agent  can be used with other agents from ostorlab store. to perform a full scan on a specefic target.
 
-_dnsReaper is a Subdomain Takeover tool written in Go designed to scan a list of subdomains concurrently and identify ones
-that are able to be hijacked. With Go's speed and efficiency, this tool really stands out when it comes to mass-testing.
-Always double-check the results manually to rule out false positives.
-
-dnsReaper will also check for subdomains attached to domains that don't exist (NXDOMAIN) and are available to be
-registered. No need for dig ever again! This is still cross-compatible too._
-
----
-
-<p align="center">
-<img src="https://raw.githubusercontent.com/mohsinenar/agent_dnsReaper/main/images/logo.png" alt="agent-dnsReaper" />
-</p>
-
-This repository is an implementation of [Ostorlab Agent](https://pypi.org/project/ostorlab/)
-for [dnsReaper](https://github.com/haccer/dnsReaper) (Subdomain Takeover tool).
-
-## Getting Started
-
-To perform your first scan, simply run the following command.
-
-```shell
-ostorlab scan run --install --agent agent/mohsinenar/dnsReaper domain-name example.com
-```
-
-This command will download and install `agent/mohsinenar/dnsReaper` and target domain `example.com`.
-For more information, please refer to
-the [Ostorlab Documentation](https://github.com/Ostorlab/ostorlab/blob/main/README.md)
-
-## Usage
-
-Agent dnsReaper can be installed directly from the ostorlab agent store or built from this repository.
-
-### Install directly from ostorlab agent store
-
- ```shell
- ostorlab agent install agent/mohsinenar/dnsReaper
- ```
-
-You can then run the agent with the following command:
-`ostorlab scan run --agent agent/mohsinenar/dnsReaper domain domain-name example.com`
-
-### Build directly from the repository
-
-1. To build the nmap agent you need to have [ostorlab](https://pypi.org/project/ostorlab/) installed in your machine. If
-   you have already installed ostorlab, you can skip this step.
+Let say we want to scan all subdomains of `example.com` and `example2.com` for subdomain takeover 
+we can simply use https://github.com/Ostorlab/agent_subfinder to collect all subdomains of example.com & example2.com and dns_reaper will pick all subdomais from subfinder and run a scan on them.
+by running the following scan command 
 
 ```shell
-pip3 install ostorlab
-```
+ostorlab scan run -i --agent=agent/mohsinenar/dns_reaper --agent=agent/ostorlab/subfinder  domain-name example.com example2.com
+``` 
 
-2. Clone this repository.
-
-```shell
-git clone https://github.com/mohsinenar/agent_dnsReaper.git && cd agent_dnsReaper
-```
-
-3. Build the agent image using ostorlab cli.
-
- ```shell
- ostorlab agent build --file=ostorlab.yaml
- ```
-
-You can pass the optional flag `--organization` to specify your organisation. The organization is empty by default.
-
-4. Run the agent using on of the following commands:
-    * If you did not specify an organization when building the image:
-     ```shell
-     ostorlab scan run --agent agent//dnsReaper ip 8.8.8.8
-     ```
-    * If you specified an organization when building the image:
-     ```shell
-     ostorlab scan run --agent agent/[ORGANIZATION]/dnsReaper ip 8.8.8.8
-     ```
-
-## License
-
-[Apache](./LICENSE)
+## License  
+  [Apache-2.0](./LICENSE)  
