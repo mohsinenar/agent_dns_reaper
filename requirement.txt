@@ -1,2 +1,5 @@
+setuptools
+setuptools_scm
+wheel
 ostorlab[agent]
 rich

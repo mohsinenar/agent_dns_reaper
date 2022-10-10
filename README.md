@@ -1,36 +1,52 @@
-# Ostorlab Template Agent
 
-This repo is a template to build an Ostorlab agent in Python. It ships with good best practices like:
+# dnsReaper   
+  
+![agent_dns_reaper](https://raw.githubusercontent.com/mohsinenar/agent_dns_reaper/main/images/logo.png)
 
-* Github actions workflow
-* Linting checks
-* Static typing checks with Mypy
-* Running unit test with Pytest
-* Compute test coverage
 
-## Getting Started
-
-Here are links to good resources to get started:
-
-* [Write An Agent](https://docs.ostorlab.co/tutorials/write-an-ostorlab-agent/)
-* [Use Ostorlab](https://docs.ostorlab.co/tutorials/run-your-first-scan/)
-* [Debugging and Testing Agents](https://docs.ostorlab.co/tutorials/debugging-agents/)
-* [Ostorlab Internals](https://docs.ostorlab.co/tutorials/life-of-a-scan/)
-
-## Ideas for Agents to build
-
-Implementation of popular tools like:
-
-* [semgrep](https://github.com/returntocorp/semgrep) for source code scanning.
-* [nbtscan](http://www.unixwiz.net/tools/nbtscan.html): Scans for open NETBIOS nameservers on your target’s network.
-* [onesixtyone](https://github.com/trailofbits/onesixtyone): Fast scanner to find publicly exposed SNMP services.
-* [Retire.js](http://retirejs.github.io/retire.js/): Scanner detecting the use of JavaScript libraries with known
-  vulnerabilities.
-* [snallygaster](https://github.com/hannob/snallygaster): Finds file leaks and other security problems on HTTP servers.
-* [testssl.sh](https://testssl.sh/): Identify various TLS/SSL weaknesses, including Heartbleed, CRIME and ROBOT.
-* [TruffleHog](https://github.com/trufflesecurity/truffleHog): Searches through git repositories for high entropy
-  strings and secrets, digging deep into commit history.
-* [cve-bin-tool](https://github.com/intel/cve-bin-tool): Scan binaries for vulnerable components.
-* [XSStrike](https://github.com/s0md3v/XSStrike): XSS web vulnerability scanner with generative payload.
-* ~~[Subjack](https://github.com/haccer/subjack): Subdomain takeover scanning tool.~~
-* [DnsReaper](https://github.com/punk-security/dnsReaper): Subdomain takeover scanning tool.
+This repository is an implementation of [Ostorlab Agent](https://pypi.org/project/ostorlab/) for the [dnsReaper subdomain takeover tool](https://github.com/punk-security/dnsReaper) by punk-security.    
+  ## Getting Started    
+ To perform your first scan, simply run the following command:    
+ ```shell  ostorlab scan run --install --agent agent/mohsinenar/dns_reaper domain-name sub.domain.com    
+  ```    
+ ## Installation & Usage    
+      
+      
+   ### Install directly from ostorlab agent store    
+   ```shell    
+   ostorlab agent install agent/mohsinenar/dns_reaper    
+   ```    
+ You can then run the agent with the following command:    
+ ```shell  ostorlab scan run --agent agent/mohsinenar/dns_reaper domain-name sub.domain.com    
+  ```    
+ ### Build directly from the repository    
+1. To build the nmap agent you need to have [ostorlab](https://pypi.org/project/ostorlab/) installed in your machine.  if you have already installed ostorlab, you can skip this step.    
+ ```shell  pip3 install ostorlab    
+  ```    
+2. Clone this repository.    
+ ```shell  git clone https://github.com/mohsinenar/agent_dns_reaper.git && cd agent_dns_reaper    
+  ```    
+3. Build the agent image using ostorlab cli.    
+ ```shell   ostortlab agent build --file=ostorlab.yaml    
+   ```    
+ You can pass the optional flag `--organization` to specify your organisation. The organization is empty by default.    
+ 4. Run the agent using on of the following commands:    
+   *If you did not specify an organization when building the image:    
+      ```shell    
+      ostorlab scan run --agent agent//dns_reaper ip 8.8.8.8    
+      ```  
+  *If you specified an organization when building the image:  
+      ```shell    
+      ostorlab scan run --agent agent/[ORGANIZATION]/dns_reaper ip 8.8.8.8    
+``` # usage scenario   
+## Scan all subdomains For a specefic domain.  
+This agent  can be used with other agents from ostorlab store. to perform a full scan on a specefic target.  
+  
+Let say we want to scan all subdomains of `example.com` and `example2.com` for subdomain takeover   
+we can simply use https://github.com/Ostorlab/agent_subfinder to collect all subdomains of example.com & example2.com and dns_reaper will pick all subdomais from subfinder and run a scan on them.  
+by running the following scan command   
+  
+```shell  
+ostorlab scan run -i --agent=agent/mohsinenar/dns_reaper --agent=agent/ostorlab/subfinder  domain-name example.com example2.com```   
+## License    
+ [Apache-2.0](./LICENSE)
