@@ -4,7 +4,6 @@ RUN apk add build-base wget
 RUN mkdir /install
 WORKDIR /install
 COPY requirement.txt /requirement.txt
-COPY dnsReaper/requirements.txt /dnsReaper-requirement.txt
 RUN pip install --prefix=/install -r /requirement.txt
 RUN pip install --prefix=/install -r https://raw.githubusercontent.com/punk-security/dnsReaper/main/requirements.txt
 FROM base
