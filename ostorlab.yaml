@@ -1,6 +1,6 @@
 kind: Agent
 name: dns_reaper
-version: 0.0.1 # Must respect semantic versioning.
+version: 0.0.2 # Must respect semantic versioning.
 description: |
   This repository is an implementation of [Ostorlab Agent](https://pypi.org/project/ostorlab/) for the [dnsReaper subdomain takeover tool](https://github.com/punk-security/dnsReaper) by punk-security.  
   ## Getting Started  
