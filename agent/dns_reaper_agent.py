@@ -25,7 +25,7 @@ logger.setLevel('DEBUG')
 
 
 def _run_dns_reaper_command(domain: str, output_file: IO[bytes]) -> None:
-    command = ['python3', '/app/dnsReaper/main.py',
+    command = ['python3', './dnsReaper/main.py',
                'single', '--domain', domain, '--out-format', 'json', '--out', output_file.name
                ]
     logger.info('running dnsReaper with command "%s"', ' '.join(command))
@@ -36,6 +36,8 @@ def _run_dns_reaper_command(domain: str, output_file: IO[bytes]) -> None:
 def _parse_dns_reaper_output(output_file: IO[bytes]) -> Any:
     logger.info('parsing dnsReaper output')
     output_file.seek(0)
+    if output_file.tell() == 0:
+        return []
     output_data = output_file.read()
     logger.info(output_data)
     output_file.close()
